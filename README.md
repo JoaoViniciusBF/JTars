@@ -353,4 +353,4 @@ Contributions, ideas, and experimentation are welcome.
 
 # License
 
-TBD
+MIT
