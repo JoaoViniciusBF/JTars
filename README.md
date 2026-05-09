@@ -1,137 +1,149 @@
-JTARS
+# JTARS
 
-Joaq’s Tactical Avatar Runtime System
+> Joaq’s Tactical Avatar Runtime System
 
-JTARS is a real-time avatar runtime engine for livestreams where Twitch and YouTube chat users become interactive on-screen characters with RPG-style mechanics.
+JTARS is a real-time interactive avatar engine for livestreams where Twitch and YouTube chat users become RPG-style characters on screen.
 
-Unlike traditional stream avatar tools, JTARS is designed as a modular real-time interaction engine built around events, gameplay systems, and scalable architecture.
+Unlike traditional stream avatar tools, JTARS is designed as a modular runtime engine focused on gameplay systems, event-driven architecture, and scalable real-time interactions.
 
-Users are not passive viewers — they actively participate in the stream world.
+---
 
-Vision
+# Overview
 
-JTARS aims to transform livestream chat into a living multiplayer environment.
+JTARS transforms livestream chat into a living multiplayer environment.
 
-Chat messages trigger gameplay actions in real time:
+Chat users are represented as interactive avatars capable of:
 
-Spawn avatars
-Gain XP
-Trigger abilities
-Interact with pets
-Participate in events
-Buy items from shops
-Influence the world dynamically
+- Moving around the world
+- Gaining XP
+- Triggering actions
+- Participating in events
+- Owning pets
+- Buying items
+- Interacting with other players
 
-The system is designed for extensibility, allowing future expansion into advanced RPG mechanics, AI-driven systems, mini-games, and creator-defined gameplay rules.
+The engine is built to support long-term expansion into a full interactive livestream platform.
 
-Core Principles
-Real-Time First
+---
 
-Low-latency feedback is critical.
+# Core Principles
 
-Every message, action, and event should feel immediate on stream.
+## Real-Time First
 
-Event-Driven Architecture
+Immediate visual feedback is critical.
 
-All major systems communicate through events.
+Actions triggered from chat should appear on screen with minimal latency.
 
-This keeps the platform modular, scalable, and easy to extend.
+---
 
+## Event-Driven Architecture
+
+JTARS is fully event-driven.
+
+Systems communicate through events instead of direct coupling.
+
+```text
 Chat → Providers → Event Bus → Core Systems → WebSocket → Overlay → Rendering
-Decoupled Systems
+```
 
-Chat integrations, game logic, rendering, and networking remain isolated.
+Benefits:
+- Scalability
+- Extensibility
+- Easier testing
+- Better separation of concerns
+- Cleaner feature integration
 
-This enables:
+---
 
-Easier maintenance
-Independent scaling
-Cleaner testing
-Faster iteration
-Modular Design
+## Modular Design
 
-JTARS is built as a monorepo with reusable packages and isolated applications.
+The project is organized as a monorepo with isolated applications and reusable packages.
 
-The goal is long-term maintainability without early overengineering.
+This allows systems to evolve independently while sharing common logic and types.
 
-Features
-Current / MVP Goals
-Twitch chat integration
-YouTube chat integration
-Real-time avatar spawning
-Modular avatar system
-Shared skeletal animation rig
-WebSocket communication
-Event bus architecture
-XP and leveling system
-Basic movement and interactions
-Overlay rendering with PixiJS
-Planned Systems
-Pets
-Shops and economy
-Inventory system
-Equipment and cosmetics
-Stream events and raids
-Abilities and combat
-AI/NPC interactions
-Creator tools and dashboards
-Multiple game modes
-Persistent progression
-Tech Stack
-Frontend (Overlay)
-React
-PixiJS
+---
+
+# Tech Stack
+
+## Frontend (Overlay)
+
+- React
+- PixiJS
 
 Responsibilities:
+- Rendering
+- Animations
+- HUD/UI
+- Visual effects
+- Avatar updates
 
-Rendering
-Animation
-Visual effects
-UI/HUD
-Real-time avatar updates
-Backend
-Node.js
-TypeScript
+---
+
+## Backend
+
+- Node.js
+- TypeScript
 
 Responsibilities:
+- Chat ingestion
+- Event processing
+- Gameplay systems
+- State management
+- WebSocket communication
 
-Chat ingestion
-Game logic
-Event processing
-State management
-WebSocket server
-Database
-PostgreSQL
+---
+
+## Database
+
+- PostgreSQL
 
 Used for:
+- User progression
+- Inventory
+- Economy systems
+- Persistent data
 
-User persistence
-Progression
-Inventory
-Economy systems
-Analytics
-Chat Integrations
-Twitch
-tmi.js
-YouTube
-YouTube Data API
-Communication
-WebSockets
+---
+
+## Chat Integrations
+
+### Twitch
+- `tmi.js`
+
+### YouTube
+- YouTube Data API
+
+---
+
+## Communication
+
+- WebSockets
 
 Used for real-time synchronization between backend systems and the overlay renderer.
 
-Repository Structure
+---
+
+# Monorepo Structure
+
+```text
 apps/
-  overlay/    # React + PixiJS rendering client
-  server/     # Backend systems + websocket server
+  overlay/      # React + PixiJS overlay renderer
+  server/       # Backend services + websocket gateway
 
 packages/
-  core/       # Shared logic, commands, gameplay systems
-  chat/       # Twitch/YouTube providers
-  events/     # Event bus system
-  avatars/    # Avatar assembly + animation systems
-System Architecture
-High-Level Flow
+  core/         # Shared game logic and types
+  chat/         # Twitch/YouTube providers
+  events/       # Event bus implementation
+  avatars/      # Avatar assembly and animation systems
+```
+
+---
+
+# Architecture
+
+## High-Level Flow
+
+```text
 ┌─────────────┐
 │ Twitch Chat │
 └──────┬──────┘
@@ -147,7 +159,7 @@ High-Level Flow
        │
 ┌──────▼─────────────┐
 │ Core Game Systems  │
-│ XP / Combat / Pets │
+│ XP / Pets / Events │
 └──────┬─────────────┘
        │
 ┌──────▼──────┐
@@ -159,33 +171,67 @@ High-Level Flow
 │ Overlay     │
 │ React/Pixi  │
 └─────────────┘
-Avatar System
+```
 
-JTARS uses a modular avatar architecture.
+---
 
-Characters are assembled dynamically using interchangeable parts:
+# Avatar System
 
-Head
-Body
-Arms
-Legs
-Accessories
+JTARS uses modular avatars assembled from interchangeable parts.
 
-All avatar parts share a common skeletal rig, enabling:
+Avatar components:
+- Head
+- Body
+- Arms
+- Legs
+- Accessories
 
-Shared animations
-Cosmetic swapping
-Efficient rendering
-Scalable content creation
+All parts share a common skeletal rig, enabling:
+- Shared animations
+- Cosmetic customization
+- Efficient rendering
+- Easier content creation
 
-This allows thousands of visual combinations without requiring separate animations for every character.
+---
 
-Event System
+# Features
 
-The event bus is the backbone of JTARS.
+## MVP Goals
+
+- Twitch chat integration
+- YouTube chat integration
+- Real-time avatar spawning
+- Event bus architecture
+- WebSocket synchronization
+- XP and leveling system
+- Basic interactions
+- Modular avatars
+- Shared animation system
+
+---
+
+## Planned Features
+
+- Pets and companions
+- Inventory system
+- Economy/shop system
+- Equipment and cosmetics
+- Stream-wide events
+- Abilities and combat
+- AI/NPC systems
+- Creator dashboards
+- Plugin architecture
+- Persistent worlds
+
+---
+
+# Event System
+
+The event bus powers all runtime communication.
 
 Example events:
 
+```ts
 USER_JOINED
 CHAT_MESSAGE
 USER_GAINED_XP
@@ -193,67 +239,118 @@ PET_SUMMONED
 ITEM_PURCHASED
 ABILITY_CAST
 STREAM_EVENT_STARTED
+```
 
-Benefits:
+This architecture allows new systems to be added without tightly coupling features together.
 
-Loose coupling
-Easier feature expansion
-Plugin-like architecture
-Better observability
-Cleaner testing
-Real-Time Considerations
+---
 
-JTARS prioritizes responsiveness and smooth rendering.
+# Real-Time Performance Goals
 
-Key goals:
+JTARS is designed with low-latency interactions in mind.
 
-Minimize WebSocket payload sizes
-Avoid unnecessary state synchronization
-Use event snapshots instead of full state replication
-Keep rendering deterministic
-Isolate heavy computations from render loops
-MVP Philosophy
+Key priorities:
+- Lightweight WebSocket payloads
+- Minimal render overhead
+- Event-based synchronization
+- Decoupled systems
+- Predictable rendering pipelines
 
-JTARS intentionally focuses on incremental development.
+---
 
-The goal is:
+# MVP Philosophy
 
-Build a stable event pipeline
-Render avatars reliably
-Synchronize real-time interactions
-Expand gameplay systems gradually
+Focus on building stable foundations first.
 
-Avoid premature complexity.
+Development priorities:
+1. Reliable event pipeline
+2. Stable overlay rendering
+3. Real-time synchronization
+4. Incremental gameplay systems
 
-Build foundations first.
+Avoid premature overengineering.
 
-Development Goals
-Near-Term
-Establish event bus foundation
-Implement Twitch + YouTube providers
-Create avatar rendering pipeline
-Define shared message protocol
-Build XP and leveling systems
-Mid-Term
-Persistent progression
-Economy systems
-Pets and companions
-Advanced animations
-Stream interaction tools
-Long-Term
-Creator scripting systems
-Plugin architecture
-AI-driven interactions
-Multi-stream support
-Hosted platform / SaaS architecture
-Guiding Philosophy
+---
 
-JTARS is not just an overlay.
+# Development Roadmap
 
-It is a real-time interactive runtime designed to turn livestream audiences into active participants inside a persistent evolving world.
+## Phase 1
+- Event bus foundation
+- Twitch integration
+- Overlay rendering
+- Avatar spawning
+- WebSocket protocol
 
-Contributing
+## Phase 2
+- XP systems
+- Persistent users
+- YouTube integration
+- Basic gameplay mechanics
 
-JTARS is currently in active architecture and MVP development.
+## Phase 3
+- Pets
+- Shop/economy
+- Cosmetics
+- Stream events
 
-Contributions, ideas, and experimentation are welcome as the project evolves.
+## Phase 4
+- Plugin systems
+- Creator tooling
+- AI systems
+- Multi-stream support
+
+---
+
+# Getting Started
+
+## Requirements
+
+- Node.js
+- PostgreSQL
+- pnpm (recommended)
+
+---
+
+## Install
+
+```bash
+pnpm install
+```
+
+---
+
+## Development
+
+Start backend:
+
+```bash
+pnpm --filter server dev
+```
+
+Start overlay:
+
+```bash
+pnpm --filter overlay dev
+```
+
+---
+
+# Project Goals
+
+JTARS is intended to evolve beyond a simple stream overlay.
+
+The long-term vision is a scalable interactive runtime platform where livestream communities become active participants inside persistent multiplayer worlds.
+
+---
+
+# Contributing
+
+The project is currently in active architecture and MVP development.
+
+Contributions, ideas, and experimentation are welcome.
+
+---
+
+# License
+
+TBD
