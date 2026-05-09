@@ -1,0 +1,17 @@
+{
+  "name": "jtars",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm:dev:*\"",
+    "dev:server": "npm run dev --workspace=apps/server",
+    "dev:overlay": "npm run dev --workspace=apps/overlay"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0",
+    "typescript": "^5.0.0"
+  }
+}
