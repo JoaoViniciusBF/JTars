@@ -42,8 +42,8 @@ class JTarsEngine {
 
     const jtar = new JTar(user);
 
-    jtar.graphics.x = Math.random() * window.innerWidth;
-    jtar.graphics.y = Math.random() * window.innerHeight;
+    jtar.body.x = Math.random() * window.innerWidth;
+    jtar.body.y = Math.random() * window.innerHeight;
 
     this.app.stage.addChild(jtar.container);
 

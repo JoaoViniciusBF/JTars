@@ -3,26 +3,22 @@ import { GRAVITY, MOVE_SPEED } from "./physics";
 import { WanderAI } from "./movement";
 
 export type JtarProps = {
+  key?: number;
   name?: string;
-  color?: PIXI.Color;
-  direction?: number;
+  color?: string;
   scale?: number;
   skin?: string;
+  direction?: number;
   isAnonymous?: boolean;
-  key?: number;
 };
 
-export type JtarSpawnProps = {
-  isFalling?: boolean;
-  positionX?: number;
-  onComplete?: () => void;
-};
-
-export class JTar {
+  export class JTar {
   public container: PIXI.Container;
-  public graphics: PIXI.Graphics;
+  public body: PIXI.Graphics;
   public nickname: PIXI.Text;
 
+  private height = 60;
+  private width = 40;
   private velocityX = 0;
   private velocityY = 0;
   private grounded = false;
@@ -33,24 +29,24 @@ export class JTar {
     this.container = new PIXI.Container();
 
     // body
-    this.graphics = new PIXI.Graphics();
+    this.body = new PIXI.Graphics();
 
     // nickname
     this.nickname = new PIXI.Text(user.displayName, {
-      fontSize: 6,
+      fontSize: 12,
       fill: 0xffffff,
       stroke: 0x000000,
       strokeThickness: 3,
     });
 
-    this.nickname.anchor.set(0.5, 1);
-    this.nickname.position.set(20, -5); // centered above avatar
+    this.nickname.anchor.set(0.5, 0.5);
+    this.nickname.position.set(20, -5); 
 
     // draw avatar
     this.draw();
 
     // attach to container
-    this.container.addChild(this.graphics);
+    this.container.addChild(this.body);
     this.container.addChild(this.nickname);
   }
 
@@ -66,8 +62,8 @@ export class JTar {
     this.container.y += this.velocityY;
 
     // floor collision
-    if (this.container.y + 40 >= floorY) {
-      this.container.y = floorY - 40;
+    if (this.container.y + this.height >= floorY) {
+      this.container.y = floorY - this.height;
       this.velocityY = 0;
       this.grounded = true;
     } else {
@@ -83,11 +79,11 @@ export class JTar {
   }
 
   private draw() {
-    this.graphics.clear();
+    this.body.clear();
 
-    this.graphics.beginFill(this.stringToColor(this.user.userId));
-    this.graphics.drawRect(0, 0, 40, 40);
-    this.graphics.endFill();
+    this.body.beginFill(this.stringToColor(this.user.userId));
+    this.body.drawRect(0, 0, this.width, this.height);
+    this.body.endFill();
   }
 
   private stringToColor(str: string) {

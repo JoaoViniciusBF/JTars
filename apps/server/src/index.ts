@@ -10,7 +10,7 @@ let tw: TwitchProvider | undefined;
 let yt: YouTubeProvider | undefined;
 
 if (want_tw) {
-  tw = new TwitchProvider("calango");
+  tw = new TwitchProvider("suetam1v4");
 }
 
 if (want_yt) {
