@@ -11,6 +11,7 @@
     "dev:overlay": "npm run dev --workspace=apps/overlay"
   },
   "devDependencies": {
+    "@types/ws": "^8.18.1",
     "concurrently": "^8.2.0",
     "typescript": "^5.0.0"
   }

@@ -10,17 +10,25 @@ let tw: TwitchProvider | undefined;
 let yt: YouTubeProvider | undefined;
 
 if (want_tw) {
-  tw = new TwitchProvider("suetam1v4");
+  // Replace with your channel
+  tw = new TwitchProvider("cellbit");
 }
 
 if (want_yt) {
   yt = new YouTubeProvider("");
 }
 
+// Fixed onMessage to ensure we capture the correct fields
+function onMessage(msg: any) {
+  // We ensure the payload has what JTar needs
+  const payload = {
+    userId: msg.userId,
+    displayName: msg.displayName || msg.username || msg.userId,
+    message: msg.message
+  };
 
-function onMessage(msg: { userId: string; message: string; }) {
-  if (handleCommand(msg)) return;
-  eventBus.emit("chat", msg);
+  if (handleCommand(payload)) return;
+  eventBus.emit("chat", payload);
 }
 
 tw?.onMessage(onMessage);
